@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import app from './app.js'
-import config from "./config/index"
+import config from "./config/index.js"
 
 //create a fn
 // run a fn
