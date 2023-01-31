@@ -3,9 +3,10 @@ import formidable from 'formidable';
 import fs from "fs"
 import {deleteFile, s3FileUpload} from "../services/imageUpload.js"
 import Mongoose from "mongoose"
-import asyncHandler from '../services/asyncHandler'
-import CustomError from '../utils/customError'
+import asyncHandler from '../services/asyncHandler.js'
+import CustomError from '../utils/customError.js'
 import config from "../config/index.js"
+import AuthRoles from "../utils/authRoles.js";
 
 /**********************************************************
  * @ADD_PRODUCT
@@ -18,6 +19,13 @@ import config from "../config/index.js"
 
 
 export const addProduct = asyncHandler(async (req, res) => {
+    // check if user is authorized to access this route
+    if(req.user.role==AuthRoles.USER)
+    {
+        throw new CustomError("You are not authorized to access this route",400)
+    }
+
+
     const form = formidable({
         multiples: true,
         keepExtensions: true
