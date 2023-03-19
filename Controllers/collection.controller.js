@@ -16,6 +16,8 @@ export const createCollection = asyncHandler(async (req, res) => {
     //take name from front end
     const { name } = req.body
 
+    console.log("cat name",name);
+
     // console.log("user role", req.user.role);
     if(req.user.role==AuthRoles.USER)
     {
@@ -25,6 +27,8 @@ export const createCollection = asyncHandler(async (req, res) => {
     if (!name) {
         throw new CustomError("Collection name is required", 400)
     }
+
+   
 
     //add this name to database
     const collection = await Collection.create({
@@ -111,7 +115,7 @@ export const deleteCollection = asyncHandler(async(req, res) => {
         throw new CustomError("Collection not found", 400)
     }
 
-    collectionToDelete.remove()
+    // collectionToDelete.remove()
     //send response to front end
     res.status(200).json({
         success: true,

@@ -20,6 +20,8 @@ export const createCoupon=asyncHandler(async (req, res)=>{
 
     const {code, discount}=req.body;
 
+    console.log("coupon ", code, discount);
+
     // check if code and discount feilds
     if(!(code && discount))
     {
@@ -133,6 +135,43 @@ export const getAllCoupon=asyncHandler(async (req,res)=>{
         success: true,
         message: "coupons found successfully",
         coupons
+    })
+})
+
+/**********************************************************
+ * @VALIDATE_COUPON
+ * @route https://localhost:5000/api/coupon
+ * @description Controller used for validating a coupon
+ * @description user can check if the coupon is valid or not
+ * @returns if valid returns coupon
+ *********************************************************/
+
+export const validateCoupon=asyncHandler(async (req,res)=>{
+    // get coupon name from frontend
+    const {code}=req.params
+    // console.log(code);
+    if(!code)
+    {
+        throw new CustomError("Coupon name is required",401);
+    }
+
+    const coupon=await Coupon.findOne({code});
+
+    if(!coupon)
+    {
+        throw new CustomError("Invalid Coupon Code!",401);
+        
+    }
+
+    if(!coupon.active)
+    {
+        throw new CustomError("Coupon Experied!",401);
+    }
+
+    res.status(201).json({
+        success: true,
+        message: "Coupon applied successfully",
+        coupon
     })
 })
 

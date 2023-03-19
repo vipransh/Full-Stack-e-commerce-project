@@ -37,7 +37,7 @@ export const addProduct = asyncHandler(async (req, res) => {
                 throw new CustomError(err.message || "Something went wrong", 500)
             }
             let productId = new Mongoose.Types.ObjectId().toHexString();
-            //console.log(fields, files)
+            // console.log(fields, files)
 
             // check for fields
             if (!fields.name || 
@@ -97,7 +97,7 @@ export const addProduct = asyncHandler(async (req, res) => {
  * @GET_ALL_PRODUCT
  * @route https://localhost:5000/api/product
  * @description Controller used for getting all products details
- * @description User and admin can get all the prducts
+ * @description User and admin can get all the products
  * @returns Products Object
  *********************************************************/
 
@@ -137,6 +137,35 @@ export const getProductById = asyncHandler( async (req, res) => {
     })
 })
 
+
+/**********************************************************
+ * @GET_PRODUCT_BY_CATEGORY
+ * @route https://localhost:5000/api/product
+ * @description Controller used for getting products by category
+ * @returns Product Object
+ *********************************************************/
+
+export const getProductsByCategory=asyncHandler(async(req,res)=>{
+    const {catId}=req.params
+
+    if(!(catId))
+    {
+        throw new CustomError("category id is required",400);
+    }
+
+    const products=await Product.find({collectionId: catId});
+
+
+    if(!(products))
+    {
+        throw new CustomError("Category not found",400);
+    }
+
+    res.status(201).json({
+        success: true,
+        products
+    })
+})
 
 // assignment to read
 
