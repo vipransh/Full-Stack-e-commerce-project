@@ -14,7 +14,7 @@ collectionRouter.route("/updateCollection/:id").put(isLoggedIn, updateCollection
 collectionRouter.route("/deleteCollection/:id").delete(isLoggedIn, deleteCollection);
 
 // get all collection route
-collectionRouter.route("/getAllCollections").get(isLoggedIn, getAllCollections);
+collectionRouter.route("/getAllCollections").get(getAllCollections);
 
 
 export default collectionRouter;
